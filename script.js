@@ -81,29 +81,6 @@ const displayMovement = movem => {
 };
 displayMovement(account1.movements);
 
-// const createUserNames = function (accs) {
-//   accs.forEach(function (acc) {
-//     acc.username = acc.owner
-//       .toLowerCase()
-//       .split(' ')
-//       .map(name => name[0])
-//       .join('');
-//   });
-// };
-// createUserNames(accounts);
-
-// console.log(accounts);
-
-// const createUserName = accs => {
-//   accs.forEach(acc => {
-//     acc.username = acc.owner
-//       .toLowerCase()
-//       .split(' ')
-//       .map(name => name[0])
-//       .join('');
-//   });
-// };
-
 const createUserName = accs => {
   accs.forEach(acc => {
     acc.username = acc.owner
@@ -311,3 +288,13 @@ checkDogs(JuliaData, kateData);
 // const newArray = array.map((val, ind, arr) => {
 //   console.log(val[ind]);
 // });
+
+const deposit = movements.filter(mov => {
+  return mov > 0;
+});
+console.log(deposit);
+
+const withdrawal = movements.filter(mov => {
+  return mov < 0;
+});
+console.log(withdrawal);
