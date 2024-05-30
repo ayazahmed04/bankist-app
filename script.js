@@ -75,12 +75,48 @@ const displayMovement = movem => {
           <div class="movements__value">${mov}</div>
         </div>
           `;
-    console.log(mov);
+    // console.log(mov);
     containerMovements.insertAdjacentHTML('afterbegin', html);
   });
 };
 displayMovement(account1.movements);
 
+// const createUserNames = function (accs) {
+//   accs.forEach(function (acc) {
+//     acc.username = acc.owner
+//       .toLowerCase()
+//       .split(' ')
+//       .map(name => name[0])
+//       .join('');
+//   });
+// };
+// createUserNames(accounts);
+
+// console.log(accounts);
+
+// const createUserName = accs => {
+//   accs.forEach(acc => {
+//     acc.username = acc.owner
+//       .toLowerCase()
+//       .split(' ')
+//       .map(name => name[0])
+//       .join('');
+//   });
+// };
+
+const createUserName = accs => {
+  accs.forEach(acc => {
+    acc.username = acc.owner
+      .toLowerCase()
+      .split(' ')
+      .map(name => {
+        return name[0];
+      })
+      .join('');
+  });
+};
+createUserName(accounts);
+console.log(accounts);
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -189,13 +225,15 @@ TEST DATA 2: Julia's data [9, 16, 6, 8, 3], Kate's data [10, 5, 6, 1, 4]
 GOOD LUCK 😀
 */
 
+/*
 let JuliaData = [3, 5, 2, 12, 7];
 let kateData = [4, 1, 15, 8, 3];
 
 let JuliaData1 = [9, 16, 6, 8, 3];
 let katedata1 = [10, 5, 6, 1, 4];
 
-/*
+
+
 const checkDogs = (dogsJulia, dogsKate) => {
   console.log();
   let JuliaOnlyDog = [];
@@ -226,6 +264,50 @@ const checkDogs = (dogsJulia, dogsKate) => {
     }
   });
 };
-*/
+
+const checkDogs = (juliaD, kateD) => {
+  // slice method is to create the copy of the array
+  // let correctedJulia = juliaD.slice();
+  console.log(juliaD);
+  let correctedJulia = [...juliaD];
+  correctedJulia.splice(0, 1);
+  correctedJulia.splice(2, 2);
+
+  let allData = [...correctedJulia, ...kateD];
+  console.log(allData);
+
+  allData.forEach((dog, ind) => {
+    if (dog > 3) {
+      console.log(`The dog number ${ind + 1} is ${dog} year old `);
+    } else {
+      let puppyDog = `The dog number ${ind + 1} is still a puppy 🐶`;
+      console.log(puppyDog);
+    }
+  });
+};
 
 checkDogs(JuliaData, kateData);
+
+*/
+
+// const movWithMap = account1.movements.map((val, i, arr) => {
+//   console.log();
+//   let result = `You ${
+//     val > 0 ? 'deposited' : 'withdrawl'
+//   } money at the index ${i}`;
+//   return result;
+// });
+
+// console.log(movWithMap);
+
+// Challenge on map someone have
+// const array = [
+//   [{ id: 1 }, { id: 2 }],
+//   [{ id: 'a' }, { id: 'b' }],
+//   [{ id: 'string' }],
+// ];
+
+// // const newArray = ["1_a_string", "2_a_string", "1_b_string", "2_b_string"] => Person want this type of array
+// const newArray = array.map((val, ind, arr) => {
+//   console.log(val[ind]);
+// });
