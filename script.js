@@ -81,6 +81,16 @@ const displayMovement = movem => {
 };
 displayMovement(account1.movements);
 
+// Total Balance Value
+const calcTotalBalance = movements => {
+  console.log(movements);
+  const balance = movements.reduce((acc, cur) => acc + cur, 0);
+  labelBalance.innerHTML = `${balance} EUR`;
+};
+
+calcTotalBalance(account1.movements);
+
+// CreateUserName
 const createUserName = accs => {
   accs.forEach(acc => {
     acc.username = acc.owner
@@ -292,9 +302,26 @@ checkDogs(JuliaData, kateData);
 const deposit = movements.filter(mov => {
   return mov > 0;
 });
-console.log(deposit);
+// console.log(deposit);
 
 const withdrawal = movements.filter(mov => {
   return mov < 0;
 });
-console.log(withdrawal);
+// console.log(withdrawal);
+
+// Maximum value
+const maxValue = movements.reduce((acc, cur) => {
+  if (acc < cur) {
+    return cur;
+  } else {
+    return acc;
+  }
+}, movements[0]);
+console.log(maxValue);
+// balance2 calc all sum
+const balance2 = movements.reduce((acc, cur, ind) => {
+  console.log(`index ${ind} : cur ${cur} : acc ${acc}`);
+  return acc + cur;
+}, 0);
+
+console.log(balance2);
