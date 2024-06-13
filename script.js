@@ -90,6 +90,35 @@ const calcTotalBalance = movements => {
 
 calcTotalBalance(account1.movements);
 
+// Display total summary
+const calcTotalSummary = movements => {
+  // Total Income
+  const incomes = movements
+    .filter(mov => mov > 0)
+    .reduce((acc, mov) => mov + acc, 0);
+  labelSumIn.textContent = incomes;
+
+  // Total Deposit
+  const deposit = movements
+    .filter(mov => mov < 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumOut.textContent = -deposit;
+
+  // Total Summary
+  let allPostMoney = [];
+  for (let i = 0; i < movements.length; i++) {
+    if (movements[i] < 0) {
+      allPostMoney.push(-movements[i]);
+    } else {
+      allPostMoney.push(movements[i]);
+    }
+  }
+  const totalSumIn = allPostMoney.reduce((acc, mov) => (acc + mov) * 0.05, 0);
+
+  labelSumInterest.innerHTML = Math.floor(totalSumIn);
+};
+
+calcTotalSummary(account1.movements);
 // CreateUserName
 const createUserName = accs => {
   accs.forEach(acc => {
@@ -325,3 +354,11 @@ const balance2 = movements.reduce((acc, cur, ind) => {
 }, 0);
 
 console.log(balance2);
+
+// Deposit output with chaining
+let toUsdAllDeposit = movements
+  .filter(val => val > 0)
+  .map(val => val * 1.1)
+  .reduce((acc, mov) => acc + mov, 0);
+
+console.log(toUsdAllDeposit);
