@@ -82,35 +82,35 @@ const displayMovement = (movem) => {
 // displayMovement(account1.movements)
 
 // Total Balance Value
-const calcTotalBalance = (movements) => {
-  console.log(movements);
-  const balance = movements.reduce((acc, cur) => acc + cur, 0);
+const calcTotalBalance = (acc) => {
+  console.log(acc.movements);
+  const balance = acc.movements.reduce((acc, cur) => acc + cur, 0);
   labelBalance.innerHTML = `${balance} EUR`;
 };
 
 // calcTotalBalance(account1.movements)
 
 // Display total summary
-const calcTotalSummary = (movements) => {
+const calcTotalSummary = (acc) => {
   // Total Income
-  const incomes = movements
+  const incomes = acc.movements
     .filter((mov) => mov > 0)
     .reduce((acc, mov) => mov + acc, 0);
   labelSumIn.textContent = incomes;
 
   // Total Deposit
-  const deposit = movements
+  const deposit = acc.movements
     .filter((mov) => mov < 0)
     .reduce((acc, mov) => acc + mov, 0);
   labelSumOut.textContent = -deposit;
 
   // Total Summary
   let allPostMoney = [];
-  for (let i = 0; i < movements.length; i++) {
-    if (movements[i] < 0) {
-      allPostMoney.push(-movements[i]);
+  for (let i = 0; i < acc.movements.length; i++) {
+    if (acc.movements[i] < 0) {
+      allPostMoney.push(-acc.movements[i]);
     } else {
-      allPostMoney.push(movements[i]);
+      allPostMoney.push(acc.movements[i]);
     }
   }
   const totalSumIn = allPostMoney.reduce((acc, mov) => (acc + mov) * 0.05, 0);
@@ -118,6 +118,7 @@ const calcTotalSummary = (movements) => {
   labelSumInterest.innerHTML = Math.floor(totalSumIn);
 };
 
+console.log(calcTotalSummary(account1));
 // calcTotalSummary(account1.movements)
 // CreateUserName
 const createUserName = (accs) => {
@@ -154,15 +155,76 @@ btnLogin.addEventListener("click", (e) => {
     // clear input fields
     inputLoginUsername.value = inputLoginPin.value = "";
     inputLoginPin.blur();
-
-    // displayMovements
-    displayMovement(currentAccount.movements);
-
-    // display Balance
-    calcTotalBalance(currentAccount.movements);
-    // Display Summary
-    calcTotalSummary(currentAccount.movements);
+    UpdateUI(currentAccount);
   } else {
     alert("Plz enter the correct passwd");
   }
 });
+
+// Transfer button functionality set
+btnTransfer.addEventListener("click", (e) => {
+  e.preventDefault();
+
+  const transferValue = Number(inputTransferAmount.value);
+  const transferTo = inputTransferTo.value;
+
+  accounts.find((acc) => {
+    if (acc.username === transferTo) {
+      currentAccount.movements.push(-transferValue);
+      acc.movements.push(transferValue);
+    } else {
+      // Alert Box from the the alertbox.js.org
+      alertbox.render({
+        alertIcon: "error",
+        title: "Sorry",
+        message: "Plz Enter Correct User Name",
+        border: true,
+        btnTitle: "Ok",
+      });
+    }
+    UpdateUI(currentAccount);
+  });
+});
+
+// Update UI
+function UpdateUI(acc) {
+  // displayMovements
+  displayMovement(acc.movements);
+
+  // display Balance
+  calcTotalBalance(acc);
+  // Display Summary
+  calcTotalSummary(acc);
+}
+
+// Loan Button functionality added
+btnLoan.addEventListener("click", (e) => {
+  e.preventDefault();
+  const loanValue = Number(inputLoanAmount.value);
+
+  currentAccount.movements.push(loanValue);
+  UpdateUI(currentAccount);
+});
+
+// Delete the user account btn
+btnClose.addEventListener("click", (e) => {
+  e.preventDefault();
+
+  if (inputCloseUsername.value === currentAccount.username && Number(inputClosePin.value) === Number(currentAccount.pin)) 
+  {
+    // finding the index of the number
+    const index = accounts.findIndex( acc => acc.username === currentAccount.username);
+    
+    // Delete Accounts 
+    accounts.splice(index, 1)
+
+    // Hide UI
+    containerApp.style.opacity = 0;
+    
+    // Set value to 0 
+    inputCloseUsername.value = inputClosePin.value = '';
+  }
+  
+ 
+});
+
