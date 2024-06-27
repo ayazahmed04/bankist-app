@@ -61,10 +61,12 @@ const inputLoanAmount = document.querySelector(".form__input--loan-amount");
 const inputCloseUsername = document.querySelector(".form__input--user");
 const inputClosePin = document.querySelector(".form__input--pin");
 
-const displayMovement = (movem) => {
+const displayMovement = (movem , sort = false) => {
+
   containerMovements.innerHTML = "";
 
-  movem.forEach((mov, ind) => {
+  let sortMov = sort ? movem.slice().sort( (a, b ) => a -b) : movem
+  sortMov.forEach((mov, ind) => {
     const type = mov > 0 ? "deposit" : "withdrawal";
     //
     let html = `
@@ -80,6 +82,14 @@ const displayMovement = (movem) => {
   });
 };
 // displayMovement(account1.movements)
+
+// Sort Button 
+  let sorted;
+btnSort.addEventListener('click' , (e) => { 
+  e.preventDefault()
+  displayMovement(currentAccount.movements, sorted)
+  sorted = !sorted
+})
 
 // Total Balance Value
 const calcTotalBalance = (acc) => {
@@ -228,3 +238,4 @@ btnClose.addEventListener("click", (e) => {
  
 });
 
+// Some and every Method learning in js 
